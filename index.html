@@ -37,13 +37,36 @@
     .btn-outline{border:1px solid #e5e7eb;color:#111;background:white} .btn-primary{background:var(--red);color:white}
     section{margin-top:16px} .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     ul.simple{list-style:none;padding:0;margin:0;display:grid;gap:8px} ul.simple li{background:#fbfbfb;padding:10px;border-radius:8px;border:1px solid #f0f0f0}
-    .table{overflow-x:auto} table{width:100%;border-collapse:collapse} th,td{padding:8px;text-align:left;border-bottom:1px solid #f3f3f3}
+    .table{overflow-x:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;text-align:left;border-bottom:1px solid #f3f3f3}
+
+    /* training table */
+    .training-table{width:100%;border-collapse:collapse;margin-top:6px}
+    .training-table th{font-weight:700;background:#f5f5f5;padding:10px;border-bottom:2px solid #e5e5e5}
+    .training-table td{padding:10px;border-bottom:1px solid #eee}
+    .training-table tr:hover{background:#fafafa}
+    .training-table th:nth-child(2),
+    .training-table td:nth-child(2){text-align:center}
+    .training-table th:nth-child(4),
+    .training-table td:nth-child(4){text-align:center;font-weight:600}
+
+    /* team badge */
+    .team-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--black);color:var(--white);font-weight:800;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+    .team-badge svg{width:16px;height:16px;flex:0 0 16px}
+    @media (max-width:900px){
+      .team-badge{padding:6px 10px;font-size:12px}
+    }
 
     /* GALLERY */
-    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .thumb{height:160px;border-radius:8px;overflow:hidden;background:#e9e9e9;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.04);transition:transform .18s ease, box-shadow .18s ease}
-    .thumb:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .thumb{height:120px;border-radius:8px;overflow:hidden;background:#e9e9e9}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+    @media (max-width:900px){
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .thumb{height:140px}
+    }
 
     .hero-img{width:100%;height:220px;object-fit:cover;border-radius:10px;display:block} footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;padding:14px}
     .gallery-overlay{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:10px}
@@ -169,39 +192,39 @@
 
         <!-- table layout -->
         <div style="margin-top:12px; overflow:auto">
-          <table style="width:100%;border-collapse:collapse">
+          <table class="training-table">
             <thead>
               <tr>
-                <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Den</th>
-                <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Čas</th>
-                <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Místo</th>
-                <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Kdo</th>
+                <th>Den</th>
+                <th>Čas</th>
+                <th>Místo</th>
+                <th>Kdo</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Úterý</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6"><button class="btn-link" data-note="Otevřené tréninky pro všechny">19:00–21:00</button></td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Tělocvična Sokol</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">A tým</td>
+                <td>📅 Úterý</td>
+                <td><span>19:00–21:00</span></td>
+                <td>Tělocvična Sokol</td>
+                <td><span class="team-badge" aria-label="A tým"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a2 2 0 0 0-2 2v1.1a6 6 0 0 0-4.9 4.9H4a2 2 0 1 0 0 4h1.1a6 6 0 0 0 4.9 4.9V20a2 2 0 1 0 4 0v-1.1a6 6 0 0 0 4.9-4.9H20a2 2 0 1 0 0-4h-1.1A6 6 0 0 0 14 5.1V4a2 2 0 0 0-2-2z" stroke="currentColor" stroke-width="0.8" fill="currentColor"/></svg>A tým</span></td>
               </tr>
               <tr>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Středa</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6"><button class="btn-link" data-note="Trénink zaměřený na techniku a taktiku">18:00–20:00</button></td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Tělocvična Sokol</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">A tým</td>
+                <td>📅 Středa</td>
+                <td><span>18:00–20:00</span></td>
+                <td>Tělocvična Sokol</td>
+                <td><span class="team-badge" aria-label="A tým"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a2 2 0 0 0-2 2v1.1a6 6 0 0 0-4.9 4.9H4a2 2 0 1 0 0 4h1.1a6 6 0 0 0 4.9 4.9V20a2 2 0 1 0 4 0v-1.1a6 6 0 0 0 4.9-4.9H20a2 2 0 1 0 0-4h-1.1A6 6 0 0 0 14 5.1V4a2 2 0 0 0-2-2z" stroke="currentColor" stroke-width="0.8" fill="currentColor"/></svg>A tým</span></td>
               </tr>
               <tr>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Pátek</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6"><button class="btn-link" data-note="Trénink mládeže + sparing">18:00–20:00</button></td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Tělocvična Sokol</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">A tým</td>
+                <td>📅 Pátek</td>
+                <td><span>18:00–20:00</span></td>
+                <td>Tělocvična Sokol</td>
+                <td><span class="team-badge" aria-label="A tým"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a2 2 0 0 0-2 2v1.1a6 6 0 0 0-4.9 4.9H4a2 2 0 1 0 0 4h1.1a6 6 0 0 0 4.9 4.9V20a2 2 0 1 0 4 0v-1.1a6 6 0 0 0 4.9-4.9H20a2 2 0 1 0 0-4h-1.1A6 6 0 0 0 14 5.1V4a2 2 0 0 0-2-2z" stroke="currentColor" stroke-width="0.8" fill="currentColor"/></svg>A tým</span></td>
               </tr>
               <tr>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Neděle</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6"><button class="btn-link" data-note="Lehké tréninky, kondice a hry">18:00–20:00</button></td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">Tělocvična Sokol</td>
-                <td style="padding:8px;border-bottom:1px solid #f6f6f6">A tým</td>
+                <td>📅 Neděle</td>
+                <td><span>18:00–20:00</span></td>
+                <td>Tělocvična Sokol</td>
+                <td><span class="team-badge" aria-label="A tým"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a2 2 0 0 0-2 2v1.1a6 6 0 0 0-4.9 4.9H4a2 2 0 1 0 0 4h1.1a6 6 0 0 0 4.9 4.9V20a2 2 0 1 0 4 0v-1.1a6 6 0 0 0 4.9-4.9H20a2 2 0 1 0 0-4h-1.1A6 6 0 0 0 14 5.1V4a2 2 0 0 0-2-2z" stroke="currentColor" stroke-width="0.8" fill="currentColor"/></svg>A tým</span></td>
               </tr>
             </tbody>
           </table>
@@ -214,8 +237,7 @@
           aby ses mohl stát pravidelným členem oddílu.
         </p>
 
-        <!-- note panel -->
-        <div id="trainingNote" style="margin-top:12px;padding:12px;background:#fbfbfb;border-radius:8px;border:1px solid #f0f0f0;display:none"></div>
+        
       </section>
 
       <!-- RESULTS -->
@@ -270,7 +292,7 @@
             <h4 style="margin:0 0 6px">Sokol Dolní Počernice — Stolní tenis</h4>
             
 
-            <p style="margin-top:10px"><strong>Navarra Tomáš</strong></p>
+            <p style="margin-top:10px"><strong>Tomáš Navarra</strong></p>
             <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1" fill="none"/><path d="M21 6l-9 6L3 6" stroke="currentColor" stroke-width="1" fill="none"/></svg> Email: <a href="mailto:tomas.navarra@gmail.com">tomas.navarra@gmail.com</a></p>
             <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M6.6 10.8a15.05 15.05 0 006.6 6.6l2.2-2.2a1 1 0 011.1-.2c1.2.5 2.5.8 3.9.8a1 1 0 011 1V20a1 1 0 01-1 1C9.4 21 3 14.6 3 6a1 1 0 011-1h2.5a1 1 0 011 1c0 1.4.3 2.7.8 3.9a1 1 0 01-.2 1.1l-2.5 2.8z" stroke="currentColor" stroke-width="0.8" fill="none"/></svg> Telefon: <a href="tel:+420602150427">+420 602 150 427</a></p>
           </div>
@@ -355,11 +377,13 @@
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden','false');
     }
+
     function closeLightbox(){
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden','true');
       lbImg.src = '';
     }
+
     function showNext(delta){
       currentIndex = (currentIndex + delta + galleryImages.length) % galleryImages.length;
       lbImg.src = 'assets/' + galleryImages[currentIndex];
@@ -370,14 +394,13 @@
       galleryGrid.innerHTML = '';
       const imgs = galleryExpanded ? galleryImages : galleryImages.slice(0, INITIAL_SHOW);
 
-      imgs.forEach((src, i) => {
+      imgs.forEach((src,i)=>{
         const div = document.createElement('div');
         div.className = 'thumb';
         const img = document.createElement('img');
         img.src = 'assets/' + src;
         img.alt = src;
-        img.setAttribute('data-index', galleryExpanded ? i : i);
-        img.addEventListener('click', ()=> openLightbox(galleryExpanded ? i : i));
+        img.addEventListener('click', ()=> openLightbox(i));
         div.appendChild(img);
         galleryGrid.appendChild(div);
       });
@@ -387,12 +410,9 @@
       if(galleryImages.length > INITIAL_SHOW){
         expandBtn.style.display = 'inline-block';
         expandBtn.textContent = galleryExpanded ? 'Sbalit galerii' : 'Rozbalit galerii';
-      } else {
-        expandBtn.style.display = 'none';
       }
     }
 
-    // init
     renderGallery();
 
     expandBtn && expandBtn.addEventListener('click', ()=>{
@@ -400,14 +420,12 @@
       renderGallery();
     });
 
-    // lightbox controls
     lbClose && lbClose.addEventListener('click', closeLightbox);
     lbPrev && lbPrev.addEventListener('click', ()=> showNext(-1));
     lbNext && lbNext.addEventListener('click', ()=> showNext(1));
     lightbox && lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) closeLightbox(); });
 
-    // keyboard navigation
-    document.addEventListener('keydown', (e)=>{
+    document.addEventListener('keydown',(e)=>{
       if(lightbox.classList.contains('open')){
         if(e.key==='Escape') closeLightbox();
         if(e.key==='ArrowRight') showNext(1);
@@ -415,17 +433,11 @@
       }
     });
 
-    // training note toggles
-    document.querySelectorAll('#training .btn-link').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const note = e.currentTarget.getAttribute('data-note') || '';
-        const panel = document.getElementById('trainingNote');
-        panel.style.display = 'block';
-        panel.textContent = note;
-        panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-      });
+    expandBtn && expandBtn.addEventListener('click', ()=>{
+      galleryExpanded = !galleryExpanded;
+      renderGallery();
     });
-  // active menu on scroll
+// active menu on scroll
     const navLinks = document.querySelectorAll('nav.desktop a');
     const sections = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
     const obsOptions = {root:null,rootMargin:'-40% 0px -40% 0px',threshold:0};
