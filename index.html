@@ -26,7 +26,7 @@
     nav.desktop a:hover::after, nav.desktop a.active::after{transform:scaleX(1)}
 
     .cta{background:var(--red);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:700}
-    .hamburger{display:none;border:1px solid #e5e7eb;padding:8px;border-radius:8px;background:white;cursor:pointer}
+    
     .hamburger:focus{outline:2px solid rgba(220,38,38,0.2)}
 
     main{margin-top:18px} .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center}
@@ -55,16 +55,16 @@
     .team-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--black);color:var(--white);font-weight:800;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
     .team-badge svg{width:16px;height:16px;flex:0 0 16px}
     @media (max-width:900px){
-      .team-badge{padding:6px 10px;font-size:12px}
-    }
-
-    /* GALLERY */
-    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .thumb{height:120px;border-radius:8px;overflow:hidden;background:#e9e9e9}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-
-    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
       .gallery{grid-template-columns:repeat(2,1fr)}
+      nav.desktop{display:flex;flex-wrap:wrap;justify-content:center}
+      header{padding:10px}
+      .site{padding:12px}
+      .brand .logo-img{width:72px;height:72px}
+      .hero h1{font-size:22px}
+      .card{padding:12px}
+      .grid2{grid-template-columns:1fr}
+      .iframe-box{height:240px}
       .thumb{height:140px}
     }
 
@@ -146,21 +146,11 @@
       </div>
 
       <div style="display:flex;align-items:center;gap:12px">
-        <button class="hamburger" id="hambBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Otevřít menu">☰</button>
+        
       </div>
     </header>
 
-    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-      <button class="close-btn" id="closeMobile">Zavřít ✕</button>
-      <nav aria-label="Mobilní menu">
-        <a href="#about" data-close>O nás</a>
-        <a href="#training" data-close>Tréninky</a>
-        <a href="#results" data-close>Výsledky</a>
-        <a href="#gallery" data-close>Galerie</a>
-        <a href="#contact" data-close>Kontakt</a>
-      </nav>
-    </div>
-    <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true"></div>
+    
 
     <main>
       <!-- HERO -->
@@ -326,29 +316,7 @@
   </div>
 
   <script>
-    // mobile menu toggle (improved slide menu)
-    const hamb = document.getElementById('hambBtn');
-    const menu = document.getElementById('mobileMenu');
-    const overlay = document.getElementById('mobileOverlay');
-    const closeBtn = document.getElementById('closeMobile');
-
-    function openMobile(){
-      menu.classList.add('open');
-      overlay.classList.add('show');
-      menu.setAttribute('aria-hidden','false');
-      overlay.setAttribute('aria-hidden','false');
-      hamb.setAttribute('aria-expanded','true');
-    }
-    function closeMobile(){
-      menu.classList.remove('open');
-      overlay.classList.remove('show');
-      menu.setAttribute('aria-hidden','true');
-      overlay.setAttribute('aria-hidden','true');
-      hamb.setAttribute('aria-expanded','false');
-    }
-
-    hamb && hamb.addEventListener('click', () => openMobile());
-    closeBtn && closeBtn.addEventListener('click', () => closeMobile());
+    
     overlay && overlay.addEventListener('click', () => closeMobile());
     // close menu when clicking a link inside (mobile)
     document.querySelectorAll('#mobileMenu [data-close]').forEach(a=>a.addEventListener('click', ()=> closeMobile()));
