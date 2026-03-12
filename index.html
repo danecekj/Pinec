@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sokol Dolní Počernice — Stolní tenis</title>
+    <!-- updated: refreshed preview trigger -->
   <style>
     :root{ --red:#c1121f; --black:#111111; --white:#ffffff; --muted:#444; --bg:#ffffff; --card:#ffffff; --maxw:1100px; --radius:12px; font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
     *{box-sizing:border-box}
@@ -15,6 +16,18 @@
     .brand{display:flex;align-items:center;gap:10px}
     .logo-img{width:96px;height:96px;display:inline-flex;align-items:center;justify-content:center;overflow:visible;flex:0 0 96px}
     .logo-img img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* brand text styling */
+    .brand-title{font-weight:900;font-size:22px;letter-spacing:0.04em;line-height:1.1}
+    .brand-sub{font-size:16px;color:#333;margin-top:6px;font-weight:600;position:relative;padding-top:6px}
+
+    /* divider line between title and subtitle */
+    .brand-sub::before{content:"";position:absolute;top:0;left:0;width:60px;height:2px;background:var(--red);opacity:0.7}
+
+    @media (max-width:900px){
+      .brand-title{font-size:18px}
+      .brand-sub{font-size:14px}
+    }
 
     /* nav container with subtle background & pill-like links */
     .nav-wrap{display:flex;align-items:center;gap:12px;padding:6px 8px;border-radius:10px;background:rgba(0,0,0,0.02)}
@@ -32,7 +45,11 @@
     main{margin-top:18px} .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center}
     .card{background:var(--white);border:1px solid #e5e5e5;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.04);position:relative}
     .card::before{content:'';position:absolute;left:0;top:0;width:100%;height:6px;background:transparent;border-top-left-radius:12px;border-top-right-radius:12px}
-    .hero h1{font-size:26px;margin:0 0 8px} .muted{color:#555}
+    .hero h1{font-size:20px;font-weight:700;margin:0 0 10px}
+    .muted{color:#555}
+    /* hero paragraph styles */
+    .hero-lead{font-size:18px;line-height:1.5;margin:8px 0;color:var(--muted);font-weight:600}
+    .hero-sub{margin-top:8px;color:#333;line-height:1.45} 
     .buttons{display:flex;gap:10px;margin-top:12px} .buttons a{padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
     .btn-outline{border:1px solid #e5e7eb;color:#111;background:white} .btn-primary{background:var(--red);color:white}
     section{margin-top:16px} .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -120,6 +137,16 @@
 
     /* touch targets */
     button, .btn-link, a {touch-action:manipulation}
+  
+    /* --- Override: Gallery layout to ensure thumbnails display side-by-side on all devices --- */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
+    .thumb{width:100%;border-radius:8px;overflow:hidden;background:#e9e9e9;aspect-ratio:4/3}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+    @media (max-width:900px){
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .thumb{aspect-ratio:16/10}
+    }
   </style>
 </head>
 <body>
@@ -130,8 +157,8 @@
           <img src="assets/logo.png" alt="Logo Sokol Dolní Počernice – Stolní tenis">
         </div>
         <div>
-          <div style="font-weight:800">ODDÍL STOLNÍHO TENISU</div>
-          <div class="muted" style="font-size:13px">Sokol Dolní Počernice</div>
+          <div class="brand-title">ODDÍL STOLNÍHO TENISU</div>
+          <div class="brand-sub">Sokol Dolní Počernice</div>
         </div>
       </div>
 
@@ -141,7 +168,7 @@
         <a href="#training">Tréninky</a>
         <a href="#results">Výsledky</a>
         <a href="#gallery">Galerie</a>
-        <a href="#contact">Kontakt</a>
+        <a href="#contact">Kontakty</a>
       </nav>
       </div>
 
@@ -154,19 +181,15 @@
 
     <main>
       <!-- HERO -->
-      <div class="hero">
+      <div class="hero" id="about">
         <div>
           <div class="card">
-            <h1>Sokol Dolní Počernice — Stolní tenis</h1>
-            <p class="muted">Oddíl zaměřený na závodní hraní dospělých. Pravidelné tréninky, hrajeme oficiální soutěž a pořádáme oddílové turnaje.</p>
-            
+            <h1>O nás</h1>
+            <p class="hero-lead">Klub pro dospělé hráče z Dolních Počernic — tréninky, liga a oddílové turnaje. Přidej se k nám, jestli chceš zlepšit svoji hru.</p>
+            <p class="hero-sub muted">Oddíl stolního tenisu je nejmladším oddílem Sokola Dolní Počernice. Vznikl v lednu 2024, aby umožnil závodní hraní dospělým hráčům v Dolních Počernicích a okolí. Od sezóny 2024/25 trénujeme pravidelně, hrajeme oficiální soutěž a pořádáme oddílové turnaje. Hned v první sezóně jsme postoupili z 7. třídy do 6. a v současné sezóně 2025/26 bojujeme o postup do 5. třídy.</p>
           </div>
 
-          <!-- ABOUT -->
-          <section id="about" class="card" style="margin-top:14px">
-            <h3 style="margin:0 0 8px">O nás</h3>
-            <p class="muted" style="margin:0">Oddíl stolního tenisu Sokol Dolní Počernice vznikl, aby umožnil závodní hraní dospělým hráčům v Dolních Počernicích a okolí. Jsme otevřeni novým členům.</p>
-          </section>
+          
 
         </div>
 
@@ -222,9 +245,7 @@
 
         <!-- explanatory text -->
         <p class="muted" style="margin-top:12px">
-          Přijď si s námi zahrát — máme pravidlo: přijď si vyzkoušet 3 tréninky a pak se domluvíme. 
-          Po vzájemné dohodě zaplatíš příspěvky a vyřídíš formality pro vstup do Sokola Dolní Počernice,
-          aby ses mohl stát pravidelným členem oddílu.
+          Přijď si s námi zatrénovat - máme pravidlo: Přijď si vyzkoušet 3 tréninky a seznámit se a pak se domluvíme. Když si vše sedne a budeš mít zájem, jak ty, tak i my, můžeš se stát členem našeho oddílu a chodit s námi hrát pravidelně.
         </p>
 
         
@@ -276,15 +297,23 @@
 
       <!-- CONTACT -->
       <section id="contact" class="card">
-        <h3 style="margin-top:0">Kontakt</h3>
+        <h3 style="margin-top:0">Kontakty</h3>
         <div class="grid2" style="align-items:start">
           <div>
-            <h4 style="margin:0 0 6px">Sokol Dolní Počernice — Stolní tenis</h4>
+            
             
 
-            <p style="margin-top:10px"><strong>Tomáš Navarra</strong></p>
+            <p style="margin-top:10px"><strong>Prezident oddílu:</strong></p>
+            <p style="margin:4px 0">Tomáš Navarra</p>
             <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1" fill="none"/><path d="M21 6l-9 6L3 6" stroke="currentColor" stroke-width="1" fill="none"/></svg> Email: <a href="mailto:tomas.navarra@gmail.com">tomas.navarra@gmail.com</a></p>
             <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M6.6 10.8a15.05 15.05 0 006.6 6.6l2.2-2.2a1 1 0 011.1-.2c1.2.5 2.5.8 3.9.8a1 1 0 011 1V20a1 1 0 01-1 1C9.4 21 3 14.6 3 6a1 1 0 011-1h2.5a1 1 0 011 1c0 1.4.3 2.7.8 3.9a1 1 0 01-.2 1.1l-2.5 2.8z" stroke="currentColor" stroke-width="0.8" fill="none"/></svg> Telefon: <a href="tel:+420602150427">+420 602 150 427</a></p>
+
+            <div style="margin-top:14px">
+              <strong>Další členové výkonného výboru:</strong>
+              <p style="margin-top:6px">
+                Petr Bartoníček, Petr Záhorský, Pavel Boček, Jan Daněček
+              </p>
+            </div>
           </div>
 
           <div>
@@ -317,9 +346,9 @@
 
   <script>
     
-    overlay && overlay.addEventListener('click', () => closeMobile());
+    
     // close menu when clicking a link inside (mobile)
-    document.querySelectorAll('#mobileMenu [data-close]').forEach(a=>a.addEventListener('click', ()=> closeMobile()));
+    
 
     // set current year
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -383,10 +412,6 @@
 
     renderGallery();
 
-    expandBtn && expandBtn.addEventListener('click', ()=>{
-      galleryExpanded = !galleryExpanded;
-      renderGallery();
-    });
 
     lbClose && lbClose.addEventListener('click', closeLightbox);
     lbPrev && lbPrev.addEventListener('click', ()=> showNext(-1));
