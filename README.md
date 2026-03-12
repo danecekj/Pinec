@@ -1,0 +1,1 @@
+Statický web s assets (logo + galerie). Otevři index.html nebo nahraj na GitHub Pages.

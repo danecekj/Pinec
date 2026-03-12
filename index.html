@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sokol Dolní Počernice — stolní tenis</title>
+  <style>
+    :root{ --red:#dc2626; --muted:#6b7280; --bg:#f3f4f6; --card:#ffffff; --maxw:1100px; --radius:12px;
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111}
+    .site{max-width:var(--maxw);margin:0 auto;padding:20px}
+    header{background:var(--card);border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.06);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo-img{width:56px;height:56px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 56px}
+    .logo-img img{width:100%;height:100%;object-fit:cover;display:block}
+    nav.desktop{display:flex;gap:14px} nav.desktop a{color:var(--muted);text-decoration:none;font-weight:600}
+    .cta{background:var(--red);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:700}
+    .hamburger{display:none;border:1px solid #e5e7eb;padding:8px;border-radius:8px;background:white}
+    main{margin-top:22px} .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.04)}
+    .hero h1{font-size:28px;margin:0 0 10px} .muted{color:var(--muted)}
+    .buttons{display:flex;gap:10px;margin-top:12px} .buttons a{padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+    .btn-outline{border:1px solid #e5e7eb;color:#111;background:white} .btn-primary{background:var(--red);color:white}
+    section{margin-top:18px} .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    ul.simple{list-style:none;padding:0;margin:0;display:grid;gap:8px} ul.simple li{background:#fbfbfb;padding:10px;border-radius:8px;border:1px solid #f0f0f0}
+    .table{overflow-x:auto} table{width:100%;border-collapse:collapse} th,td{padding:8px;text-align:left;border-bottom:1px solid #f3f3f3}
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .thumb{height:96px;border-radius:8px;overflow:hidden;background:#e9e9e9}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block} footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px;padding:18px}
+    @media (max-width:900px){ .hero{grid-template-columns:1fr} .gallery{grid-template-columns:repeat(2,1fr)} nav.desktop{display:none} .hamburger{display:inline-block} }
+    .mobile-menu{display:none;background:var(--card);padding:12px;border-radius:10px;margin-top:10px} .mobile-menu a{display:block;padding:8px 0;color:var(--muted);text-decoration:none}
+    .map-buttons{display:flex;gap:10px} .map-buttons a{display:inline-block;padding:8px 12px;border-radius:8px;text-decoration:none} .map-address{font-size:14px;color:var(--muted);margin-bottom:8px}
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <div class="brand">
+        <div class="logo-img">
+          <img src="assets/logo.png" alt="Logo oddílu">
+        </div>
+        <div>
+          <div style="font-weight:800">Oddíl stolního tenisu</div>
+          <div class="muted" style="font-size:13px">Sokol Dolní Počernice</div>
+        </div>
+      </div>
+
+      <nav class="desktop" aria-label="Hlavní menu">
+        <a href="#about">O nás</a>
+        <a href="#training">Tréninky</a>
+        <a href="#results">Výsledky</a>
+        <a href="#gallery">Galerie</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <a class="cta" href="#join">Přidej se k nám</a>
+        <button class="hamburger" id="hambBtn" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+      </div>
+    </header>
+
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="#about">O nás</a>
+      <a href="#training">Tréninky</a>
+      <a href="#results">Výsledky</a>
+      <a href="#gallery">Galerie</a>
+      <a href="#contact">Kontakt</a>
+      <a href="#join" style="margin-top:8px;display:inline-block;background:var(--red);color:white;padding:8px 12px;border-radius:8px;text-decoration:none">Přidej se k nám</a>
+    </div>
+
+    <main>
+      <!-- HERO -->
+      <div class="hero">
+        <div>
+          <div class="card">
+            <h1>Sokol Dolní Počernice — stolní tenis</h1>
+            <p class="muted">Oddíl zaměřený na závodní hraní dospělých. Pravidelné tréninky, hrajeme oficiální soutěž a pořádáme oddílové turnaje.</p>
+            <div class="buttons">
+              <a class="btn-primary" href="#training">Tréninky</a>
+              <a class="btn-outline" href="#contact">Kontakt</a>
+            </div>
+          </div>
+
+          <!-- ABOUT -->
+          <section id="about" class="card" style="margin-top:14px">
+            <h3 style="margin:0 0 8px">O nás</h3>
+            <p class="muted" style="margin:0">Oddíl stolního tenisu Sokol Dolní Počernice vznikl, aby umožnil závodní hrát dospělým hráčům v Dolních Počernicích a okolí. Jsme otevřeni novým členům.</p>
+          </section>
+
+        </div>
+
+        <div class="card">
+          <!-- hero image -->
+          <img src="assets/gallery1.png" alt="Foto klubu" style="width:100%;height:220px;object-fit:cover;border-radius:10px">
+        </div>
+      </div>
+
+      <!-- TRAINING -->
+      <section id="training" class="card">
+        <h3 style="margin-top:0">Tréninky</h3>
+        <p class="muted">Přijď si zahrát — pravidelné časy tréninků:</p>
+        <div class="grid2" style="margin-top:10px">
+          <div>
+            <ul class="simple">
+              <li><strong>Úterý</strong> — 19:00–21:00<br><span class="muted">Tělocvična Sokol · Všichni</span></li>
+              <li><strong>Středa</strong> — 18:00–20:00<br><span class="muted">Tělocvična Sokol · Pokročilí</span></li>
+              <li><strong>Pátek</strong> — 18:00–20:00<br><span class="muted">Tělocvična Sokol · Mládež</span></li>
+               <li><strong>Neděle</strong> — 18:00–20:00<br><span class="muted">Tělocvična Sokol · Mládež</span></li>
+            </ul>
+          </div>
+          <div>
+            <p class="muted" style="margin-top:4px">Přijď si s námi zahrát - máme pravidlo, přijď si s námi vyzkoušet 3 tréninky a pak si řekneme vzájemně. Když se domluvíme, tak zaplatíš příspěvky a splníš pár formalit pro vstup do Sokola Dolní Počernice a můžeš s námi hrát pravidelně.</p>
+            <div style="margin-top:10px">
+              <a class="btn-primary" href="#join">Zkusit trénink</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section id="results" class="card">
+        <h3 style="margin-top:0">Výsledky a tabulka</h3>
+        <p class="muted">Oficiální tabulka soutěže a výsledky našeho týmu najdeš na STIS (zdroj):</p>
+
+        <div style="margin-top:10px" class="grid2">
+          <div>
+            <h4 style="margin:0 0 8px">Tabulka soutěže</h4>
+            <div class="table card" style="padding:10px">
+              <!-- statický fallback: odkaz -->
+              <p class="muted" style="margin:0 0 8px">Otevři oficiální tabulku na STIS:</p>
+              <a href="https://stis.ping-pong.cz/tabulka/svaz-420101/rocnik-2025/soutez-6284" target="_blank" rel="noopener noreferrer">Tabulka soutěže — STIS</a>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin:0 0 8px">Výsledky družstva</h4>
+            <div class="card" style="padding:10px">
+              <p class="muted" style="margin:0 0 8px">Seznam zápasů a výsledků (oficiální):</p>
+              <a href="https://stis.ping-pong.cz/los-vse/svaz-420101/rocnik-2025/soutez-6284/druzstvo-63263" target="_blank" rel="noopener noreferrer">Výsledky družstva — STIS</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:10px;font-size:13px">Poznámka: STIS používá dynamické JS. Pokud chceš, mohu připravit server-side řešení, které data stáhne a zobrazí přímo na tomto webu.</p>
+      </section>
+
+      <!-- GALLERY -->
+      <section id="gallery" class="card">
+        <h3 style="margin-top:0">Galerie</h3>
+        <div class="gallery" style="margin-top:10px">
+          <div class="thumb"><img src="assets/gallery1.png" alt="gallery1"></div>
+          <div class="thumb"><img src="assets/gallery2.png" alt="gallery2"></div>
+          <div class="thumb"><img src="assets/gallery3.png" alt="gallery3"></div>
+          <div class="thumb"><img src="assets/gallery4.png" alt="gallery4"></div>
+          <div class="thumb"><img src="assets/gallery5.png" alt="gallery5"></div>
+          <div class="thumb"><img src="assets/gallery6.png" alt="gallery6"></div>
+          <div class="thumb"><img src="assets/gallery7.png" alt="gallery7"></div>
+          <div class="thumb"><img src="assets/gallery8.png" alt="gallery8"></div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="card">
+        <h3 style="margin-top:0">Kontakt</h3>
+        <div class="grid2" style="align-items:start">
+          <div>
+            <h4 style="margin:0 0 6px">Sokol Dolní Počernice — Stolní tenis</h4>
+            <div class="muted">Tělocvična Sokol, Dolní Počernice, Praha</div>
+
+            <p style="margin-top:10px"><strong>Navarra Tomáš</strong></p>
+            <p style="margin:4px 0">Email: <a href="mailto:danecekj@centrum.cz">danecekj@centrum.cz</a></p>
+            <p style="margin:4px 0">Telefon: <a href="tel:+420724464436">+420 724 464 436</a></p>
+          </div>
+
+          <div>
+            <h4 style="margin:0 0 6px">Mapa</h4>
+            <div class="map-address">Adresa: Sokolovna Dolní Počernice, Praha</div>
+            <div class="map-buttons">
+              <a href="https://maps.app.goo.gl/RYtgyHQe4nzSFRddA" target="_blank" rel="noopener noreferrer" style="background:#fff;border:1px solid #e5e7eb;padding:8px 10px;border-radius:8px;text-decoration:none;color:#111">Otevřít v Google Maps</a>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=https://maps.app.goo.gl/RYtgyHQe4nzSFRddA" target="_blank" rel="noopener noreferrer" style="background:var(--red);color:#fff;padding:8px 10px;border-radius:8px;text-decoration:none">Navigovat</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Sokol Dolní Počernice — pinec.sodopo.cz
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // mobile menu toggle
+    const hamb = document.getElementById('hambBtn');
+    const menu = document.getElementById('mobileMenu');
+    hamb && hamb.addEventListener('click', () => {
+      const open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+      hamb.setAttribute('aria-expanded', (!open).toString());
+    });
+
+    // set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
