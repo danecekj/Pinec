@@ -1,168 +1,859 @@
 <!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sokol Dolní Počernice — Stolní tenis</title>
-    <!-- updated: refreshed preview trigger -->
+
   <style>
-    :root{ --red:#c1121f; --black:#111111; --white:#ffffff; --muted:#444; --bg:#ffffff; --card:#ffffff; --maxw:1100px; --radius:12px; font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--black);-webkit-font-smoothing:antialiased}
-    .site{max-width:var(--maxw);margin:0 auto;padding:16px}
+    :root {
+      --red: #c1121f;
+      --black: #111111;
+      --white: #ffffff;
+      --muted: #555;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --border: #e5e5e5;
+      --maxw: 1100px;
+      --radius: 12px;
 
-    /* HEADER + NAV */
-    header{background:var(--white);border-bottom:2px solid var(--black);border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.06);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo-img{width:96px;height:96px;display:inline-flex;align-items:center;justify-content:center;overflow:visible;flex:0 0 96px}
-    .logo-img img{width:100%;height:100%;object-fit:cover;display:block}
-
-    /* brand text styling */
-    .brand-title{font-weight:900;font-size:22px;letter-spacing:0.04em;line-height:1.1}
-    .brand-sub{font-size:16px;color:#333;margin-top:6px;font-weight:600;position:relative;padding-top:6px}
-
-    /* divider line between title and subtitle */
-    .brand-sub::before{content:"";position:absolute;top:0;left:0;width:60px;height:2px;background:var(--red);opacity:0.7}
-
-    @media (max-width:900px){
-      .brand-title{font-size:18px}
-      .brand-sub{font-size:14px}
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
     }
 
-    /* nav container with subtle background & pill-like links */
-    .nav-wrap{display:flex;align-items:center;gap:12px;padding:6px 8px;border-radius:10px;background:rgba(0,0,0,0.02)}
-    nav.desktop{display:flex;gap:6px}
-    nav.desktop a{color:var(--black);text-decoration:none;font-weight:600;padding:8px 12px;border-radius:999px;position:relative;transition:all .18s ease}
-    nav.desktop a:hover{background:rgba(0,0,0,0.04);transform:translateY(-2px)}
-    /* red underline on active/hover */
-    nav.desktop a::after{content:'';position:absolute;left:12px;right:12px;height:3px;background:var(--red);bottom:-8px;transform-origin:left center;transform:scaleX(0);transition:transform .18s ease}
-    nav.desktop a:hover::after, nav.desktop a.active::after{transform:scaleX(1)}
+    * {
+      box-sizing: border-box;
+    }
 
-    .cta{background:var(--red);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:700}
-    
-    .hamburger:focus{outline:2px solid rgba(220,38,38,0.2)}
+    html {
+      scroll-behavior: smooth;
+    }
 
-    main{margin-top:18px} .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center}
-    .card{background:var(--white);border:1px solid #e5e5e5;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.04);position:relative}
-    .card::before{content:'';position:absolute;left:0;top:0;width:100%;height:6px;background:transparent;border-top-left-radius:12px;border-top-right-radius:12px}
-    .hero h1{font-size:20px;font-weight:700;margin:0 0 10px}
-    .muted{color:#555}
-    /* hero paragraph styles */
-    .hero-lead{font-size:18px;line-height:1.5;margin:8px 0;color:var(--muted);font-weight:600}
-    .hero-sub{margin-top:8px;color:#333;line-height:1.45} 
-    .buttons{display:flex;gap:10px;margin-top:12px} .buttons a{padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
-    .btn-outline{border:1px solid #e5e7eb;color:#111;background:white} .btn-primary{background:var(--red);color:white}
-    section{margin-top:16px} .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    ul.simple{list-style:none;padding:0;margin:0;display:grid;gap:8px} ul.simple li{background:#fbfbfb;padding:10px;border-radius:8px;border:1px solid #f0f0f0}
-    .table{overflow-x:auto}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:8px;text-align:left;border-bottom:1px solid #f3f3f3}
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+    }
 
-    /* training table */
-    .training-table{width:100%;border-collapse:collapse;margin-top:6px}
-    .training-table th{font-weight:700;background:#f5f5f5;padding:10px;border-bottom:2px solid #e5e5e5}
-    .training-table td{padding:10px;border-bottom:1px solid #eee}
-    .training-table tr:hover{background:#fafafa}
+    img {
+      max-width: 100%;
+    }
+
+    .site {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    header {
+      width: 100%;
+      background: var(--white);
+      border-bottom: 2px solid var(--black);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.06);
+      padding: 12px 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    /*
+     * LOGO
+     *
+     * Důležité:
+     * object-fit: contain místo cover.
+     * Logo se proto nikdy neořízne.
+     */
+
+    .logo-img {
+      width: 96px;
+      height: 96px;
+      flex: 0 0 96px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: visible;
+    }
+
+    .logo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      position: relative;
+      margin-top: 6px;
+      padding-top: 6px;
+
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .brand-sub::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 60px;
+      height: 2px;
+
+      background: var(--red);
+      opacity: 0.7;
+    }
+
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      padding: 6px 8px;
+      border-radius: 10px;
+
+      background: rgba(0, 0, 0, 0.02);
+    }
+
+    nav.desktop {
+      display: flex;
+      gap: 6px;
+    }
+
+    nav.desktop a {
+      position: relative;
+
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 600;
+
+      padding: 8px 12px;
+      border-radius: 999px;
+
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    nav.desktop a:hover {
+      background: rgba(0, 0, 0, 0.04);
+      transform: translateY(-2px);
+    }
+
+    nav.desktop a::after {
+      content: "";
+
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: -8px;
+
+      height: 3px;
+
+      background: var(--red);
+
+      transform-origin: left center;
+      transform: scaleX(0);
+
+      transition: transform 0.18s ease;
+    }
+
+    nav.desktop a:hover::after,
+    nav.desktop a.active::after {
+      transform: scaleX(1);
+    }
+
+    /* =====================================================
+       MAIN
+       ===================================================== */
+
+    main {
+      margin-top: 18px;
+    }
+
+    section {
+      margin-top: 16px;
+      scroll-margin-top: 16px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .card {
+      position: relative;
+
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 16px;
+
+      border-radius: 12px;
+
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.04);
+    }
+
+    .card::before {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      width: 100%;
+      height: 6px;
+
+      background: transparent;
+
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    main section.card::before {
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.06),
+        rgba(0, 0, 0, 0.03)
+      );
+    }
+
+    main section.card:nth-of-type(odd) {
+      background: linear-gradient(180deg, #ffffff, #fbfbfb);
+    }
+
+    .hero h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    .hero-lead {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 8px 0;
+
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .hero-sub {
+      margin-top: 8px;
+      color: #333;
+      line-height: 1.45;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 220px;
+
+      object-fit: cover;
+
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* =====================================================
+       GENERAL GRID
+       ===================================================== */
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    /* =====================================================
+       TRAINING TABLE
+       ===================================================== */
+
+    .table-wrapper {
+      margin-top: 12px;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .training-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+    }
+
+    .training-table th {
+      font-weight: 700;
+      background: #f5f5f5;
+      padding: 10px;
+      border-bottom: 2px solid #e5e5e5;
+      text-align: left;
+    }
+
+    .training-table td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .training-table tr:hover {
+      background: #fafafa;
+    }
+
     .training-table th:nth-child(2),
-    .training-table td:nth-child(2){text-align:center}
+    .training-table td:nth-child(2),
     .training-table th:nth-child(4),
-    .training-table td:nth-child(4){text-align:center;font-weight:600}
-
-    /* team badge */
-    .team-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--black);color:var(--white);font-weight:800;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
-    .team-badge svg{width:16px;height:16px;flex:0 0 16px}
-    @media (max-width:900px){
-      .hero{grid-template-columns:1fr}
-      .gallery{grid-template-columns:repeat(2,1fr)}
-      nav.desktop{display:flex;flex-wrap:wrap;justify-content:center}
-      header{padding:10px}
-      .site{padding:12px}
-      .brand .logo-img{width:72px;height:72px}
-      .hero h1{font-size:22px}
-      .card{padding:12px}
-      .grid2{grid-template-columns:1fr}
-      .iframe-box{height:240px}
-      .thumb{height:140px}
+    .training-table td:nth-child(4) {
+      text-align: center;
     }
 
-    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:10px;display:block} footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;padding:14px}
-    .gallery-overlay{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:10px}
-    .btn-link{background:var(--white);border:1px solid #dcdcdc;padding:8px 12px;border-radius:8px;text-decoration:none;color:#111;cursor:pointer}
-    /* map buttons */
-    .map-buttons{display:flex;gap:10px;margin-top:8px}
-    .map-btn{display:inline-block;padding:8px 10px;border-radius:8px;text-decoration:none}
-    .map-btn-open{background:var(--white);border:1px solid #e5e7eb;color:var(--black)}
-    .map-btn-nav{background:var(--black);color:var(--white)}
-    .map-btn:focus{outline:2px solid rgba(0,0,0,0.06)}
-
-    /* section strip + alternating gentle background */
-    main section.card::before{background:linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03));height:6px}
-    main section.card:nth-of-type(odd){background:linear-gradient(180deg, #ffffff, #fbfbfb)}
-
-    /* iframe responsive box */
-    .iframe-box{height:380px;border:1px solid #eee;border-radius:8px;overflow:hidden}
-
-    /* LIGHTBOX */
-    .lightbox{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:2000;opacity:0;visibility:hidden;transition:opacity .18s ease}
-    .lightbox.open{opacity:1;visibility:visible}
-    .lightbox img{max-width:90%;max-height:80vh;border-radius:8px;box-shadow:0 20px 40px rgba(0,0,0,0.6)}
-    .lb-close{position:absolute;top:20px;right:20px;background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer}
-    .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:none;color:#fff;font-size:36px;cursor:pointer;padding:12px}
-    .lb-prev{left:20px}
-    .lb-next{right:20px}
-
-    /* responsive */
-    @media (max-width:900px){
-      .hero{grid-template-columns:1fr}
-      .gallery{grid-template-columns:repeat(2,1fr)}
-      nav.desktop{display:none}
-      .hamburger{display:inline-block}
-      header{padding:10px}
-      .site{padding:12px}
-      .brand .logo-img{width:72px;height:72px}
-      .hero h1{font-size:22px}
-      .card{padding:12px}
-      .grid2{grid-template-columns:1fr}
-      .iframe-box{height:240px}
-      .thumb{height:140px}
+    .training-table td:nth-child(4) {
+      font-weight: 600;
     }
 
-    /* mobile menu (slide) */
-    .mobile-menu{position:fixed;top:0;left:0;height:100vh;width:280px;max-width:80vw;background:var(--card);box-shadow:2px 0 20px rgba(2,6,23,0.12);padding:18px;transform:translateX(-110%);transition:transform .28s ease;border-radius:0 12px 12px 0}
-    .mobile-menu.open{transform:translateX(0)}
-    .mobile-menu .close-btn{display:inline-block;margin-bottom:12px;padding:8px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
-    .mobile-menu a{display:block;padding:10px 6px;color:var(--muted);text-decoration:none;border-bottom:1px solid #f5f6f7}
-    .mobile-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);opacity:0;visibility:hidden;transition:opacity .2s ease}
-    .mobile-overlay.show{opacity:1;visibility:visible}
+    .team-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-    /* touch targets */
-    button, .btn-link, a {touch-action:manipulation}
-  
-    /* --- Override: Gallery layout to ensure thumbnails display side-by-side on all devices --- */
-    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
-    .thumb{width:100%;border-radius:8px;overflow:hidden;background:#e9e9e9;aspect-ratio:4/3}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+      padding: 6px 12px;
 
-    @media (max-width:900px){
-      .gallery{grid-template-columns:repeat(2,1fr)}
-      .thumb{aspect-ratio:16/10}
+      border-radius: 999px;
+
+      background: var(--black);
+      color: var(--white);
+
+      font-weight: 800;
+      font-size: 13px;
+
+      white-space: nowrap;
+
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    /* =====================================================
+       LINKS
+       ===================================================== */
+
+    a {
+      color: #111;
+    }
+
+    section a {
+      text-decoration-color: var(--red);
+      text-underline-offset: 3px;
+    }
+
+    /* =====================================================
+       GALLERY
+       ===================================================== */
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      align-items: start;
+    }
+
+    .thumb {
+      width: 100%;
+
+      border-radius: 8px;
+      overflow: hidden;
+
+      background: #e9e9e9;
+
+      aspect-ratio: 4 / 3;
+
+      cursor: pointer;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      display: block;
+
+      transition: transform 0.2s ease;
+    }
+
+    .thumb:hover img {
+      transform: scale(1.03);
+    }
+
+    .gallery-overlay {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 10px;
+    }
+
+    .btn-link {
+      background: var(--white);
+      border: 1px solid #dcdcdc;
+
+      padding: 9px 13px;
+
+      border-radius: 8px;
+
+      text-decoration: none;
+      color: #111;
+
+      cursor: pointer;
+      font: inherit;
+    }
+
+    /* =====================================================
+       LIGHTBOX
+       ===================================================== */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(0, 0, 0, 0.85);
+
+      z-index: 2000;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: opacity 0.18s ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80vh;
+
+      object-fit: contain;
+
+      border-radius: 8px;
+
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+
+      background: transparent;
+      border: none;
+
+      color: #fff;
+      font-size: 28px;
+
+      cursor: pointer;
+    }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      background: transparent;
+      border: none;
+
+      color: #fff;
+      font-size: 40px;
+
+      cursor: pointer;
+      padding: 12px;
+    }
+
+    .lb-prev {
+      left: 20px;
+    }
+
+    .lb-next {
+      right: 20px;
+    }
+
+    /* =====================================================
+       CONTACT + MAP
+       ===================================================== */
+
+    .contact-line {
+      overflow-wrap: anywhere;
+    }
+
+    .map-address {
+      line-height: 1.5;
+    }
+
+    .map-container {
+      margin: 10px 0;
+
+      border-radius: 10px;
+      overflow: hidden;
+
+      border: 1px solid #eee;
+    }
+
+    .map-container iframe {
+      display: block;
+      width: 100%;
+      height: 220px;
+      border: 0;
+    }
+
+    .map-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+
+      flex-wrap: wrap;
+    }
+
+    .map-btn {
+      display: inline-block;
+
+      padding: 9px 11px;
+
+      border-radius: 8px;
+
+      text-decoration: none;
+    }
+
+    .map-btn-open {
+      background: var(--white);
+      border: 1px solid #e5e7eb;
+      color: var(--black);
+    }
+
+    .map-btn-nav {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    footer {
+      margin-top: 24px;
+
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+
+      padding: 14px;
+    }
+
+    button,
+    a {
+      touch-action: manipulation;
+    }
+
+    /* =====================================================
+       TABLET
+       ===================================================== */
+
+    @media (max-width: 900px) {
+
+      .site {
+        padding: 12px;
+      }
+
+      header {
+        padding: 10px 12px;
+        gap: 10px;
+      }
+
+      nav.desktop {
+        display: none;
+      }
+
+      .nav-wrap {
+        display: none;
+      }
+
+      .brand {
+        width: 100%;
+      }
+
+      .logo-img {
+        width: 82px;
+        height: 82px;
+        flex: 0 0 82px;
+      }
+
+      .brand-title {
+        font-size: 18px;
+      }
+
+      .brand-sub {
+        font-size: 14px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 22px;
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 600px) {
+
+      .site {
+        padding: 8px;
+      }
+
+      header {
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+
+      /*
+       * Logo je na mobilu o něco menší,
+       * ale vždy se zobrazuje celé.
+       */
+
+      .logo-img {
+        width: 74px;
+        height: 74px;
+        flex: 0 0 74px;
+      }
+
+      .logo-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .brand {
+        gap: 9px;
+      }
+
+      .brand-title {
+        font-size: 16px;
+        letter-spacing: 0.02em;
+        line-height: 1.15;
+      }
+
+      .brand-sub {
+        font-size: 13px;
+        margin-top: 5px;
+        padding-top: 5px;
+      }
+
+      .brand-sub::before {
+        width: 45px;
+      }
+
+      main {
+        margin-top: 12px;
+      }
+
+      section {
+        margin-top: 12px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .hero {
+        gap: 12px;
+      }
+
+      .hero h1 {
+        font-size: 21px;
+      }
+
+      .hero-lead {
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .hero-img {
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+
+      /*
+       * Tréninková tabulka zůstává čitelná
+       * i na úzkém telefonu.
+       */
+
+      .training-table {
+        font-size: 13px;
+      }
+
+      .training-table th,
+      .training-table td {
+        padding: 8px 6px;
+      }
+
+      .team-badge {
+        padding: 5px 8px;
+        font-size: 11px;
+      }
+
+      .gallery {
+        gap: 7px;
+      }
+
+      .thumb {
+        aspect-ratio: 4 / 3;
+      }
+
+      .map-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .map-btn {
+        text-align: center;
+      }
+
+      .lb-prev {
+        left: 2px;
+      }
+
+      .lb-next {
+        right: 2px;
+      }
+
+      .lb-close {
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    /* =====================================================
+       VERY SMALL MOBILE
+       ===================================================== */
+
+    @media (max-width: 400px) {
+
+      .logo-img {
+        width: 66px;
+        height: 66px;
+        flex: 0 0 66px;
+      }
+
+      .brand-title {
+        font-size: 14px;
+      }
+
+      .brand-sub {
+        font-size: 12px;
+      }
+
+      .card {
+        padding: 11px;
+      }
+
+      .training-table {
+        font-size: 12px;
+      }
+
+      .training-table th,
+      .training-table td {
+        padding: 7px 4px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="site">
-    <header>
-      <div class="brand">
-        <div class="logo-img">
-          <img src="assets/logo.png" alt="Logo Sokol Dolní Počernice – Stolní tenis">
+
+<div class="site">
+
+  <!-- HEADER -->
+  <header>
+
+    <div class="brand">
+
+      <div class="logo-img">
+        <img
+          src="assets/logo.png"
+          alt="Logo Sokol Dolní Počernice – Stolní tenis"
+        >
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-title">
+          ODDÍL STOLNÍHO TENISU
         </div>
-        <div>
-          <div class="brand-title">ODDÍL STOLNÍHO TENISU</div>
-          <div class="brand-sub">Sokol Dolní Počernice</div>
+
+        <div class="brand-sub">
+          Sokol Dolní Počernice
         </div>
       </div>
 
-      <div class="nav-wrap">
+    </div>
+
+    <div class="nav-wrap">
+
       <nav class="desktop" aria-label="Hlavní menu">
         <a href="#about">O nás</a>
         <a href="#training">Tréninky</a>
@@ -170,287 +861,833 @@
         <a href="#gallery">Galerie</a>
         <a href="#contact">Kontakty</a>
       </nav>
-      </div>
 
-      <div style="display:flex;align-items:center;gap:12px">
-        
-      </div>
-    </header>
+    </div>
 
-    
+  </header>
 
-    <main>
-      <!-- HERO -->
-      <div class="hero" id="about">
-        <div>
-          <div class="card">
-            <h1>O nás</h1>
-            <p class="hero-lead">Klub pro dospělé hráče z Dolních Počernic — tréninky, liga a oddílové turnaje. Přidej se k nám, jestli chceš zlepšit svoji hru.</p>
-            <p class="hero-sub muted">Oddíl stolního tenisu je nejmladším oddílem Sokola Dolní Počernice. Vznikl v lednu 2024, aby umožnil závodní hraní dospělým hráčům v Dolních Počernicích a okolí. Od sezóny 2024/25 trénujeme pravidelně, hrajeme oficiální soutěž a pořádáme oddílové turnaje. Hned v první sezóně jsme postoupili ze 7. třídy do 6., v následující sezóně 2025/26 jsme vybojovali postup do 5. třídy a jedeme dál. V sezóně 2026/27 postavíme poprvé dvě družstva. A tým bude hrát 5. třídu a B tým 7. třídu. Domácí mistrovská utkání hrajeme v pátek od 19:00 v Sokolovně dle rozvrhu uvedeného v odkazu níže. Přijďte nám fandit!</p>
-          </div>
 
-          
+  <main>
 
-        </div>
+    <!-- ===================================================
+         O NÁS
+         =================================================== -->
+
+    <div class="hero" id="about">
+
+      <div>
 
         <div class="card">
-          <!-- hero image -->
-          <img src="assets/gallery1.jpg" alt="Foto klubu" class="hero-img">
+
+          <h1>O nás</h1>
+
+          <p class="hero-lead">
+            Klub pro dospělé hráče z Dolních Počernic — tréninky,
+            liga a oddílové turnaje. Přidej se k nám, jestli chceš
+            zlepšit svoji hru.
+          </p>
+
+          <p class="hero-sub muted">
+            Oddíl stolního tenisu je nejmladším oddílem Sokola Dolní
+            Počernice. Vznikl v lednu 2024, aby umožnil závodní hraní
+            dospělým hráčům v Dolních Počernicích a okolí.
+            Od sezóny 2024/25 trénujeme pravidelně, hrajeme oficiální
+            soutěž a pořádáme oddílové turnaje. Hned v první sezóně
+            jsme postoupili ze 7. třídy do 6., v následující sezóně
+            2025/26 jsme vybojovali postup do 5. třídy a jedeme dál.
+            V sezóně 2026/27 postavíme poprvé dvě družstva. A tým bude
+            hrát 5. třídu a B tým 7. třídu. Domácí mistrovská utkání
+            hrajeme v pátek od 19:00 v Sokolovně dle rozvrhu uvedeného
+            v odkazu níže. Přijďte nám fandit!
+          </p>
+
         </div>
+
       </div>
 
-      <!-- TRAINING -->
-      <section id="training" class="card">
-        <h3 style="margin-top:0">Tréninky</h3>
 
-        <!-- table layout -->
-        <div style="margin-top:12px; overflow:auto">
-          <table class="training-table">
-            <thead>
-              <tr>
-                <th>Den</th>
-                <th>Čas</th>
-                <th>Místo</th>
-                <th>Kdo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>📅 Úterý</td>
-                <td><span>19:30–22:00</span></td>
-                <td>Tělocvična Sokol - malá</td>
-                <td><span class="team-badge" aria-label="A+B tým">A+B tým</span></td>
-              </tr>
-              <tr>
-                <td>📅 Středa</td>
-                <td><span>18:00–20:30</span></td>
-                <td>Tělocvična Sokol - malá</td>
-                <td><span class="team-badge" aria-label="A+B tým">A+B tým</span></td>
-              </tr>
-              <tr>
-                <td>📅 Pátek</td>
-                <td><span>19:00–22:00</span></td>
-                <td>Tělocvična Sokol - velká</td>
-                <td><span class="team-badge" aria-label="A+B tým">A+B tým</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="card">
 
-        <p class="muted" style="margin-top:12px">
-          Přijď si s námi zatrénovat - máme pravidlo: Přijď si vyzkoušet 3 tréninky a seznámit se a pak se domluvíme. Když si vše sedne, budeš mít stále zájem a výkonnost podobnou jako my, můžeš se stát členem našeho oddílu a chodit s námi hrát pravidelně.
-        </p>
-      </section>
+        <img
+          src="assets/gallery1.jpg"
+          alt="Foto klubu"
+          class="hero-img"
+        >
 
-      <!-- RESULTS -->
-      <section id="results" class="card">
-        <h3 style="margin-top:0">Výsledky a tabulka</h3>
-        <p class="muted">Oficiální tabulka soutěže a výsledky našeho týmu najdeš na STIS:</p>
+      </div>
 
-        <div style="margin-top:10px" class="grid2">
-          <div>
-            <h4 style="margin:0 0 8px">A tým v sezóně 2026/27</h4>
-            <div class="card" style="padding:12px">
-              <p style="margin:0 0 10px">
-                <strong>Tabulka:</strong>
-                <a href="https://stis.ping-pong.cz/tabulka/svaz-420101/rocnik-2026/soutez-6751/" target="_blank" rel="noopener noreferrer">STIS - tabulka</a>
-              </p>
-              <p style="margin:0">
-                <strong>Zápasy a výsledky:</strong>
-                <a href="https://stis.ping-pong.cz/los-vse/svaz-420101/rocnik-2026/soutez-6751/druzstvo-67613" target="_blank" rel="noopener noreferrer">STIS - los</a>
-              </p>
-            </div>
+    </div>
+
+
+    <!-- ===================================================
+         TRÉNINKY
+         =================================================== -->
+
+    <section id="training" class="card">
+
+      <h3 style="margin-top:0">
+        Tréninky
+      </h3>
+
+      <div class="table-wrapper">
+
+        <table class="training-table">
+
+          <thead>
+
+          <tr>
+            <th>Den</th>
+            <th>Čas</th>
+            <th>Místo</th>
+            <th>Kdo</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+          <tr>
+            <td>📅 Úterý</td>
+            <td>19:30–22:00</td>
+            <td>Tělocvična Sokol - malá</td>
+            <td>
+              <span class="team-badge">
+                A+B tým
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>📅 Středa</td>
+            <td>18:00–20:30</td>
+            <td>Tělocvična Sokol - malá</td>
+            <td>
+              <span class="team-badge">
+                A+B tým
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>📅 Pátek</td>
+            <td>19:00–22:00</td>
+            <td>Tělocvična Sokol - velká</td>
+            <td>
+              <span class="team-badge">
+                A+B tým
+              </span>
+            </td>
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <p class="muted" style="margin-top:12px">
+        Přijď si s námi zatrénovat - máme pravidlo: Přijď si vyzkoušet
+        3 tréninky a seznámit se a pak se domluvíme. Když si vše sedne,
+        budeš mít stále zájem a výkonnost podobnou jako my, můžeš se stát
+        členem našeho oddílu a chodit s námi hrát pravidelně.
+      </p>
+
+    </section>
+
+
+    <!-- ===================================================
+         VÝSLEDKY
+         =================================================== -->
+
+    <section id="results" class="card">
+
+      <h3 style="margin-top:0">
+        Výsledky a tabulka
+      </h3>
+
+      <p class="muted">
+        Oficiální tabulka soutěže a výsledky našich týmů najdeš na STIS:
+      </p>
+
+
+      <div
+        class="grid2"
+        style="margin-top:10px"
+      >
+
+        <!-- A TEAM -->
+
+        <div>
+
+          <h4 style="margin:0 0 8px">
+            A tým v sezóně 2026/27
+          </h4>
+
+          <div
+            class="card"
+            style="padding:12px"
+          >
+
+            <p style="margin:0 0 10px">
+
+              <strong>Tabulka:</strong>
+
+              <a
+                href="https://stis.ping-pong.cz/tabulka/svaz-420101/rocnik-2026/soutez-6751/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                STIS - tabulka
+              </a>
+
+            </p>
+
+
+            <p style="margin:0">
+
+              <strong>Zápasy a výsledky:</strong>
+
+              <a
+                href="https://stis.ping-pong.cz/los-vse/svaz-420101/rocnik-2026/soutez-6751/druzstvo-67613"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                STIS - los
+              </a>
+
+            </p>
+
           </div>
 
-          <div>
-            <h4 style="margin:0 0 8px">B tým v sezóně 2026/27</h4>
-            <div class="card" style="padding:12px">
-              <p style="margin:0 0 10px">
-                <strong>Tabulka:</strong>
-                <a href="https://stis.ping-pong.cz/tabulka/svaz-420101/rocnik-2026/soutez-6755/" target="_blank" rel="noopener noreferrer">STIS - tabulka</a>
-              </p>
-              <p style="margin:0">
-                <strong>Zápasy a výsledky:</strong>
-                <a href="https://stis.ping-pong.cz/druzstvo-67614/svaz-420101/rocnik-2026/soutez-6755" target="_blank" rel="noopener noreferrer">STIS - družstvo</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- GALLERY -->
-      <section id="gallery" class="card">
-        <h3 style="margin-top:0">Galerie</h3>
-        <div id="galleryGrid" class="gallery" style="margin-top:10px" aria-live="polite">
-          <!-- images inserted by JS -->
         </div>
 
-        <div class="gallery-overlay">
-          <div id="galleryCount" class="muted"></div>
-          <button id="expandBtn" class="btn-link" style="display:none">Rozbalit galerii</button>
-        </div>
 
-        <!-- Lightbox -->
-        <div id="lightbox" class="lightbox" aria-hidden="true">
-          <button id="lbClose" class="lb-close" aria-label="Zavřít">✕</button>
-          <button id="lbPrev" class="lb-nav lb-prev" aria-label="Předchozí">‹</button>
-          <img id="lbImg" src="" alt="" />
-          <button id="lbNext" class="lb-nav lb-next" aria-label="Další">›</button>
-        </div>
+        <!-- B TEAM -->
 
-      </section>
+        <div>
 
-      <!-- CONTACT -->
-      <section id="contact" class="card">
-        <h3 style="margin-top:0">Kontakty</h3>
-        <div class="grid2" style="align-items:start">
-          <div>
-            
-            
+          <h4 style="margin:0 0 8px">
+            B tým v sezóně 2026/27
+          </h4>
 
-            <p style="margin-top:10px"><strong>Prezident oddílu:</strong></p>
-            <p style="margin:4px 0">Tomáš Navarra</p>
-            <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1" fill="none"/><path d="M21 6l-9 6L3 6" stroke="currentColor" stroke-width="1" fill="none"/></svg> Email: <a href="mailto:tomas.navarra@gmail.com">tomas.navarra@gmail.com</a></p>
-            <p class="contact-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M6.6 10.8a15.05 15.05 0 006.6 6.6l2.2-2.2a1 1 0 011.1-.2c1.2.5 2.5.8 3.9.8a1 1 0 011 1V20a1 1 0 01-1 1C9.4 21 3 14.6 3 6a1 1 0 011-1h2.5a1 1 0 011 1c0 1.4.3 2.7.8 3.9a1 1 0 01-.2 1.1l-2.5 2.8z" stroke="currentColor" stroke-width="0.8" fill="none"/></svg> Telefon: <a href="tel:+420602150427">+420 602 150 427</a></p>
+          <div
+            class="card"
+            style="padding:12px"
+          >
 
-            <div style="margin-top:14px">
-              <strong>Další členové výkonného výboru:</strong>
-              <p style="margin-top:6px">
-                Petr Bartoníček, Petr Záhorský, Pavel Boček, Jan Daněček
-              </p>
-            </div>
+            <p style="margin:0 0 10px">
+
+              <strong>Tabulka:</strong>
+
+              <a
+                href="https://stis.ping-pong.cz/tabulka/svaz-420101/rocnik-2026/soutez-6755/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                STIS - tabulka
+              </a>
+
+            </p>
+
+
+            <p style="margin:0">
+
+              <strong>Zápasy a výsledky:</strong>
+
+              <a
+                href="https://stis.ping-pong.cz/los-vse/svaz-420101/rocnik-2026/soutez-6755/druzstvo-67614"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                STIS - los
+              </a>
+
+            </p>
+
           </div>
 
-          <div>
-            <h4 style="margin:0 0 6px">Mapa</h4>
-            <div class="map-address"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.2" fill="currentColor"/></svg> Tělocvična Sokol Dolní Počernice</div>
-
-            <div style="margin:10px 0;border-radius:10px;overflow:hidden;border:1px solid #eee">
-              <iframe
-                src="https://www.google.com/maps?q=50.08875067466804,14.582970173938968&z=17&output=embed"
-                width="100%"
-                height="220"
-                style="border:0"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-
-            <div class="map-buttons">
-              <a class="map-btn map-btn-open" href="https://www.google.com/maps/search/?api=1&query=50.08875067466804,14.582970173938968" target="_blank" rel="noopener noreferrer">Otevřít v Google Maps</a>
-              <a class="map-btn map-btn-nav" href="https://www.google.com/maps/dir/?api=1&destination=50.08875067466804,14.582970173938968" target="_blank" rel="noopener noreferrer">Navigovat</a>
-            </div>
-          </div>
         </div>
-      </section>
 
-      <footer>
-        © <span id="year"></span> Sokol Dolní Počernice — pinec.sodopo.cz
-      </footer>
-    </main>
-  </div>
+      </div>
 
-  <script>
-    
-    
-    // close menu when clicking a link inside (mobile)
-    
-
-    // set current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // --- Gallery logic ---
-    const galleryImages = ["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"];
-    const galleryGrid = document.getElementById('galleryGrid');
-    const galleryCount = document.getElementById('galleryCount');
-    const expandBtn = document.getElementById('expandBtn');
-    const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lbImg');
-    const lbClose = document.getElementById('lbClose');
-    const lbPrev = document.getElementById('lbPrev');
-    const lbNext = document.getElementById('lbNext');
-
-    const INITIAL_SHOW = 4;
-    let galleryExpanded = false;
-    let currentIndex = 0;
-
-    function openLightbox(index){
-      currentIndex = index;
-      lbImg.src = 'assets/' + galleryImages[currentIndex];
-      lbImg.alt = 'Galerie ' + (currentIndex+1);
-      lightbox.classList.add('open');
-      lightbox.setAttribute('aria-hidden','false');
-    }
-
-    function closeLightbox(){
-      lightbox.classList.remove('open');
-      lightbox.setAttribute('aria-hidden','true');
-      lbImg.src = '';
-    }
-
-    function showNext(delta){
-      currentIndex = (currentIndex + delta + galleryImages.length) % galleryImages.length;
-      lbImg.src = 'assets/' + galleryImages[currentIndex];
-      lbImg.alt = 'Galerie ' + (currentIndex+1);
-    }
-
-    function renderGallery(){
-      galleryGrid.innerHTML = '';
-      const imgs = galleryExpanded ? galleryImages : galleryImages.slice(0, INITIAL_SHOW);
-
-      imgs.forEach((src,i)=>{
-        const div = document.createElement('div');
-        div.className = 'thumb';
-        const img = document.createElement('img');
-        img.src = 'assets/' + src;
-        img.alt = src;
-        img.addEventListener('click', ()=> openLightbox(i));
-        div.appendChild(img);
-        galleryGrid.appendChild(div);
-      });
-
-      galleryCount.textContent = galleryImages.length + ' obrázků';
-
-      if(galleryImages.length > INITIAL_SHOW){
-        expandBtn.style.display = 'inline-block';
-        expandBtn.textContent = galleryExpanded ? 'Sbalit galerii' : 'Rozbalit galerii';
-      }
-    }
-
-    renderGallery();
+    </section>
 
 
-    lbClose && lbClose.addEventListener('click', closeLightbox);
-    lbPrev && lbPrev.addEventListener('click', ()=> showNext(-1));
-    lbNext && lbNext.addEventListener('click', ()=> showNext(1));
-    lightbox && lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) closeLightbox(); });
+    <!-- ===================================================
+         GALERIE
+         =================================================== -->
 
-    document.addEventListener('keydown',(e)=>{
-      if(lightbox.classList.contains('open')){
-        if(e.key==='Escape') closeLightbox();
-        if(e.key==='ArrowRight') showNext(1);
-        if(e.key==='ArrowLeft') showNext(-1);
-      }
+    <section
+      id="gallery"
+      class="card"
+    >
+
+      <h3 style="margin-top:0">
+        Galerie
+      </h3>
+
+      <div
+        id="galleryGrid"
+        class="gallery"
+        style="margin-top:10px"
+        aria-live="polite"
+      ></div>
+
+
+      <div class="gallery-overlay">
+
+        <div
+          id="galleryCount"
+          class="muted"
+        ></div>
+
+        <button
+          id="expandBtn"
+          class="btn-link"
+          type="button"
+          style="display:none"
+        >
+          Rozbalit galerii
+        </button>
+
+      </div>
+
+
+      <!-- LIGHTBOX -->
+
+      <div
+        id="lightbox"
+        class="lightbox"
+        aria-hidden="true"
+      >
+
+        <button
+          id="lbClose"
+          class="lb-close"
+          aria-label="Zavřít"
+          type="button"
+        >
+          ✕
+        </button>
+
+
+        <button
+          id="lbPrev"
+          class="lb-nav lb-prev"
+          aria-label="Předchozí"
+          type="button"
+        >
+          ‹
+        </button>
+
+
+        <img
+          id="lbImg"
+          src=""
+          alt=""
+        >
+
+
+        <button
+          id="lbNext"
+          class="lb-nav lb-next"
+          aria-label="Další"
+          type="button"
+        >
+          ›
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         KONTAKTY
+         =================================================== -->
+
+    <section
+      id="contact"
+      class="card"
+    >
+
+      <h3 style="margin-top:0">
+        Kontakty
+      </h3>
+
+
+      <div
+        class="grid2"
+        style="align-items:start"
+      >
+
+        <div>
+
+          <p style="margin-top:10px">
+            <strong>Prezident oddílu:</strong>
+          </p>
+
+          <p style="margin:4px 0">
+            Tomáš Navarra
+          </p>
+
+
+          <p class="contact-line">
+
+            ✉️ Email:
+
+            <a href="mailto:tomas.navarra@gmail.com">
+              tomas.navarra@gmail.com
+            </a>
+
+          </p>
+
+
+          <p class="contact-line">
+
+            ☎️ Telefon:
+
+            <a href="tel:+420602150427">
+              +420 602 150 427
+            </a>
+
+          </p>
+
+
+          <div style="margin-top:14px">
+
+            <strong>
+              Další členové výkonného výboru:
+            </strong>
+
+            <p style="margin-top:6px">
+              Petr Bartoníček, Petr Záhorský, Pavel Boček, Jan Daněček
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- MAP -->
+
+        <div>
+
+          <h4 style="margin:0 0 6px">
+            Mapa
+          </h4>
+
+
+          <div class="map-address">
+            📍 Tělocvična Sokol Dolní Počernice
+          </div>
+
+
+          <div class="map-container">
+
+            <iframe
+              src="https://www.google.com/maps?q=50.08875067466804,14.582970173938968&z=17&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mapa tělocvičny Sokol Dolní Počernice"
+            ></iframe>
+
+          </div>
+
+
+          <div class="map-buttons">
+
+            <a
+              class="map-btn map-btn-open"
+              href="https://www.google.com/maps/search/?api=1&query=50.08875067466804,14.582970173938968"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Otevřít v Google Maps
+            </a>
+
+
+            <a
+              class="map-btn map-btn-nav"
+              href="https://www.google.com/maps/dir/?api=1&destination=50.08875067466804,14.582970173938968"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Navigovat
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+      © <span id="year"></span>
+      Sokol Dolní Počernice — pinec.sodopo.cz
+    </footer>
+
+  </main>
+
+</div>
+
+
+<script>
+
+  /* =====================================================
+     CURRENT YEAR
+     ===================================================== */
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+  /* =====================================================
+     GALLERY
+     ===================================================== */
+
+  const galleryImages = [
+    "gallery1.jpg",
+    "gallery2.jpg",
+    "gallery3.jpg",
+    "gallery4.jpg",
+    "gallery5.jpg",
+    "gallery6.jpg",
+    "gallery7.jpg",
+    "gallery8.jpg"
+  ];
+
+
+  const galleryGrid =
+    document.getElementById("galleryGrid");
+
+  const galleryCount =
+    document.getElementById("galleryCount");
+
+  const expandBtn =
+    document.getElementById("expandBtn");
+
+  const lightbox =
+    document.getElementById("lightbox");
+
+  const lbImg =
+    document.getElementById("lbImg");
+
+  const lbClose =
+    document.getElementById("lbClose");
+
+  const lbPrev =
+    document.getElementById("lbPrev");
+
+  const lbNext =
+    document.getElementById("lbNext");
+
+
+  const INITIAL_SHOW = 4;
+
+  let galleryExpanded = false;
+  let currentIndex = 0;
+
+
+  function openLightbox(index) {
+
+    currentIndex = index;
+
+    lbImg.src =
+      "assets/" + galleryImages[currentIndex];
+
+    lbImg.alt =
+      "Galerie " + (currentIndex + 1);
+
+    lightbox.classList.add("open");
+
+    lightbox.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow = "hidden";
+  }
+
+
+  function closeLightbox() {
+
+    lightbox.classList.remove("open");
+
+    lightbox.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    lbImg.src = "";
+
+    document.body.style.overflow = "";
+  }
+
+
+  function showNext(delta) {
+
+    currentIndex =
+      (
+        currentIndex +
+        delta +
+        galleryImages.length
+      ) % galleryImages.length;
+
+    lbImg.src =
+      "assets/" +
+      galleryImages[currentIndex];
+
+    lbImg.alt =
+      "Galerie " +
+      (currentIndex + 1);
+  }
+
+
+  function renderGallery() {
+
+    galleryGrid.innerHTML = "";
+
+    const imgs =
+      galleryExpanded
+        ? galleryImages
+        : galleryImages.slice(
+            0,
+            INITIAL_SHOW
+          );
+
+
+    imgs.forEach((src, i) => {
+
+      const actualIndex =
+        galleryImages.indexOf(src);
+
+      const div =
+        document.createElement("div");
+
+      div.className = "thumb";
+
+
+      const img =
+        document.createElement("img");
+
+      img.src =
+        "assets/" + src;
+
+      img.alt =
+        "Fotografie stolního tenisu " +
+        (actualIndex + 1);
+
+      img.loading = "lazy";
+
+
+      img.addEventListener(
+        "click",
+        () => openLightbox(actualIndex)
+      );
+
+
+      div.appendChild(img);
+
+      galleryGrid.appendChild(div);
+
     });
 
-    expandBtn && expandBtn.addEventListener('click', ()=>{
-      galleryExpanded = !galleryExpanded;
+
+    galleryCount.textContent =
+      galleryImages.length +
+      " obrázků";
+
+
+    if (
+      galleryImages.length >
+      INITIAL_SHOW
+    ) {
+
+      expandBtn.style.display =
+        "inline-block";
+
+      expandBtn.textContent =
+        galleryExpanded
+          ? "Sbalit galerii"
+          : "Rozbalit galerii";
+
+    } else {
+
+      expandBtn.style.display =
+        "none";
+    }
+
+  }
+
+
+  renderGallery();
+
+
+  /* =====================================================
+     GALLERY EVENTS
+     ===================================================== */
+
+  lbClose.addEventListener(
+    "click",
+    closeLightbox
+  );
+
+
+  lbPrev.addEventListener(
+    "click",
+    () => showNext(-1)
+  );
+
+
+  lbNext.addEventListener(
+    "click",
+    () => showNext(1)
+  );
+
+
+  lightbox.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target === lightbox
+      ) {
+
+        closeLightbox();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (
+        !lightbox.classList.contains(
+          "open"
+        )
+      ) {
+        return;
+      }
+
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+
+      if (event.key === "ArrowRight") {
+        showNext(1);
+      }
+
+      if (event.key === "ArrowLeft") {
+        showNext(-1);
+      }
+
+    }
+  );
+
+
+  expandBtn.addEventListener(
+    "click",
+    () => {
+
+      galleryExpanded =
+        !galleryExpanded;
+
       renderGallery();
-    });
-// active menu on scroll
-    const navLinks = document.querySelectorAll('nav.desktop a');
-    const sections = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const obsOptions = {root:null,rootMargin:'-40% 0px -40% 0px',threshold:0};
-    const observer = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        const id = entry.target.id;
-        const link = document.querySelector('nav.desktop a[href="#'+id+'"]');
-        if(entry.isIntersecting){
-          navLinks.forEach(n=>n.classList.remove('active'));
-          link && link.classList.add('active');
-        }
-      });
-    }, obsOptions);
-    sections.forEach(s=>observer.observe(s));
 
-    </script>
-  </body>
+    }
+  );
+
+
+  /* =====================================================
+     ACTIVE MENU ITEM
+     ===================================================== */
+
+  const navLinks =
+    document.querySelectorAll(
+      "nav.desktop a"
+    );
+
+
+  const sections =
+    Array.from(navLinks)
+      .map(link =>
+        document.querySelector(
+          link.getAttribute("href")
+        )
+      )
+      .filter(Boolean);
+
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+
+        entries.forEach(
+          entry => {
+
+            if (
+              !entry.isIntersecting
+            ) {
+              return;
+            }
+
+
+            const id =
+              entry.target.id;
+
+
+            navLinks.forEach(
+              link =>
+                link.classList.remove(
+                  "active"
+                )
+            );
+
+
+            const activeLink =
+              document.querySelector(
+                'nav.desktop a[href="#' +
+                id +
+                '"]'
+              );
+
+
+            if (activeLink) {
+              activeLink.classList.add(
+                "active"
+              );
+            }
+
+          }
+        );
+
+      },
+      {
+        root: null,
+        rootMargin:
+          "-40% 0px -40% 0px",
+        threshold: 0
+      }
+    );
+
+
+  sections.forEach(
+    section =>
+      observer.observe(section)
+  );
+
+</script>
+
+</body>
 </html>
